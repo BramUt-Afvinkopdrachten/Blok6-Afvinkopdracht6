@@ -34,7 +34,7 @@ public class OverlapGraphs {
     /**
      * Leest een fasta file in en returnt een Arraylist met Headers en sequenties.
      * @param filepath Path naar de fasta file.
-     * @return Arraylist met headers en sequentties.
+     * @return Arraylist met headers en sequenties.
      * @throws IOException Exception als de file niet gevonden of geopend kan worden.
      */
     public static ArrayList<String[]> readFasta(String filepath) throws IOException {
