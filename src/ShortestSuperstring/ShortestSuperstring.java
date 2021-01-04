@@ -13,6 +13,7 @@ public class ShortestSuperstring {
         try {
             HashMap<String, Node> res = readFasta("C:\\Users\\Bram\\Java\\Blok6-Afvinkopdracht6\\SampleDataset (shortest superstring).txt");
             mapKeys = nodes.keySet().toArray(new String[0]);
+            mapMaker();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -20,22 +21,40 @@ public class ShortestSuperstring {
 
     public static void mapMaker(){
         Node node1, node2;
-        String seq1, seq2;
-        Boolean foundOverlap1, foundOverlap2;
+        String seq1, seq2, name1, name2;
+        boolean foundOverlap1, foundOverlap2;
+        int halfway;
 
         for (int i = 0; i < mapKeys.length; i++) {
-            node1 = nodes.get(mapKeys[i]);
+
+            name1 = mapKeys[i];
+            node1 = nodes.get(name1);
             seq1 = node1.getSeq();
+            halfway = seq1.length() / 2;
             for (int j = i + 1; j < mapKeys.length; j++) {
-                node2 = nodes.get(mapKeys[j]);
+                name2 = mapKeys[j];
+                node2 = nodes.get(name2);
                 seq2 = node2.getSeq();
                 foundOverlap1 = false;
                 foundOverlap2 = false;
-                for (int k = seq1.length() / 2; k < seq1.length(); k++) {
-
+                for (int k = seq1.length(); k > halfway; k--) {
+                    if (!foundOverlap1 && seq1.startsWith(seq2.substring(seq2.length() - k))){
+                       node1.addLeft(name2, k);
+                       node2.addRight(name1, k);
+                       foundOverlap1 = true;
+                    }
+                    if (!foundOverlap2 && seq2.startsWith(seq1.substring(seq1.length() - k))){
+                        node2.addLeft(name1, k);
+                        node1.addRight(name2, k);
+                        foundOverlap2 = true;
+                    }
+                    if (foundOverlap1 && foundOverlap2) {
+                        break;
+                    }
                 }
             }
         }
+        System.out.println(nodes);
     }
 
     public static HashMap<String, Node> readFasta(String filepath) throws IOException {
