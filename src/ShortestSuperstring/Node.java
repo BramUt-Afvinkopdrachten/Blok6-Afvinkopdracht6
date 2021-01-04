@@ -33,5 +33,9 @@ public class Node {
         rightList.put(name, overlap);
     }
 
+    public boolean isStart(){
+        return leftList.isEmpty();
+    }
+
 
 }

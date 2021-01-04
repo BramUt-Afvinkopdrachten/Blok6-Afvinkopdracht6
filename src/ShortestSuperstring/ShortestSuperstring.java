@@ -14,9 +14,20 @@ public class ShortestSuperstring {
             HashMap<String, Node> res = readFasta("C:\\Users\\Bram\\Java\\Blok6-Afvinkopdracht6\\SampleDataset (shortest superstring).txt");
             mapKeys = nodes.keySet().toArray(new String[0]);
             mapMaker();
+            mapReader();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void mapReader(){
+        Node startNode = null;
+        for (String key: mapKeys) {
+            if ((startNode = nodes.get(key)).isStart()) {
+                break;
+            }
+        }
+        System.out.println(startNode);
     }
 
     public static void mapMaker(){
