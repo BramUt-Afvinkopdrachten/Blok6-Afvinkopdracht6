@@ -20,7 +20,7 @@ public class ShortestSuperstring {
         }
     }
 
-    public static void mapReader(){
+    public static ArrayList<Node> mapReader(){
         ArrayList<Node> path = new ArrayList<>();
         HashSet<String> usedKeys = new HashSet<>();
 
@@ -53,9 +53,11 @@ public class ShortestSuperstring {
             } else {
                 path.add(nodes.get(bestKey));
                 usedKeys.add(bestKey);
+
             }
         }
-        System.out.println("");
+        System.out.println(path);
+        return path;
     }
 
     public static String getStartKey(){

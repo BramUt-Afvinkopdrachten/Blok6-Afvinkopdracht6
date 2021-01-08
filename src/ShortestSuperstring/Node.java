@@ -11,10 +11,6 @@ public class Node {
         return seq;
     }
 
-    public LinkedHashMap<String, Integer> getToList() {
-        return leftList;
-    }
-
     public LinkedHashMap<String, Integer> getRightList() {
         return rightList;
     }
@@ -40,6 +36,4 @@ public class Node {
     public int getOverlapRight(String key) {
         return rightList.get(key);
     }
-
-
 }
