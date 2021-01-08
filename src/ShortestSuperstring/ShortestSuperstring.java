@@ -3,10 +3,10 @@ package ShortestSuperstring;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 
 public class ShortestSuperstring {
-    private static HashMap<String, Node> nodes = new HashMap<String, Node>();
+    private static HashMap<String, Node> nodes = new HashMap<>();
     private static String[] mapKeys;
 
     public static void main(String[] args) {
@@ -21,13 +21,52 @@ public class ShortestSuperstring {
     }
 
     public static void mapReader(){
-        Node startNode = null;
+        ArrayList<Node> path = new ArrayList<>();
+        HashSet<String> usedKeys = new HashSet<>();
+
+        String startKey = getStartKey();
+        if (startKey == null) {
+            System.out.println("Unable to locate first seq.");
+        } else {
+            path.add(nodes.get(startKey));
+            usedKeys.add(startKey);
+        }
+
+
+        System.out.println(startKey);
+        while (true){
+            Node last = path.get(path.size()-1);
+
+            String bestKey = null;
+            int bestOverlap = 0;
+            Set<String> usableKeys = last.getRightList().keySet();
+            usableKeys.removeAll(usedKeys);
+            for (String key: usableKeys) {
+                if (bestKey == null || last.getOverlapRight(key) > bestOverlap) {
+                    bestKey = key;
+                    bestOverlap = last.getOverlapRight(key);
+                }
+            }
+            if (bestKey == null) {
+                System.out.println("End reached, no matches found.");
+                break;
+            } else {
+                path.add(nodes.get(bestKey));
+                usedKeys.add(bestKey);
+            }
+        }
+        System.out.println("");
+    }
+
+    public static String getStartKey(){
+        String startKey = null;
         for (String key: mapKeys) {
-            if ((startNode = nodes.get(key)).isStart()) {
+            if ((nodes.get(key)).isStart()) {
+                startKey = key;
                 break;
             }
         }
-        System.out.println(startNode);
+        return startKey;
     }
 
     public static void mapMaker(){
@@ -87,7 +126,7 @@ public class ShortestSuperstring {
                 }
                 // Header wordt opgeslagen.
                 header = line.strip().substring(1);
-                // Sequentie.
+            // Sequentie.
             } else {
                 // Voegt regel toe aan de huidige sequentie.
                 seq.append(line.strip());

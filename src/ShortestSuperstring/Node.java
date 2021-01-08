@@ -37,5 +37,9 @@ public class Node {
         return leftList.isEmpty();
     }
 
+    public int getOverlapRight(String key) {
+        return rightList.get(key);
+    }
+
 
 }
